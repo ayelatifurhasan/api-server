@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
 
-@Injectable()
-export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHealth() {
+    return this.appService.getHealth();
   }
 }
