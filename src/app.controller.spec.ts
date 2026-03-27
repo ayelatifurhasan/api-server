@@ -1,22 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
-describe('AppController', () => {
-  let appController: AppController;
-
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
-      providers: [AppService],
-    }).compile();
-
-    appController = app.get<AppController>(AppController);
-  });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
-  });
-});
+@Module({
+  imports: [
+      TypeOrmModule.forRoot({
+            type: 'mysql',
+                  host: process.env.MYSQLHOST,
+                        port: parseInt(process.env.MYSQLPORT || '3306'),
+                              username: process.env.MYSQLUSER,
+                                    password: process.env.MYSQLPASSWORD,
+                                          database: process.env.MYSQLDATABASE,
+                                                autoLoadEntities: true,
+                                                      synchronize: true,
+                                                          }),
+                                                              AuthModule,
+                                                                ],
+                                                                })
+                                                                export class AppModule {}
